@@ -1,0 +1,8 @@
+mongoengine
+flask-graphql==2.0.1
+graphene==2.1.9
+graphene-sqlalchemy==2.3.0
+graphene-mongo
+flask==2.2.5
+flask-migrate
+flask-mongoengine==1.0.0
