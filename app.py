@@ -2,7 +2,7 @@
 from config import Config
 from flask import Flask
 from flask_graphql import GraphQLView
-from schema import schema
+from app_schema import schema
 from models import db
 from dataset import init_db
 

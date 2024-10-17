@@ -3,7 +3,8 @@ import graphene
 from models import Department as DepartmentModel
 from models import Employee as EmployeeModel
 from models import Role as RoleModel
-from schema import Role
+from .query import Role
+""" from models import Role
 
 class IntroduceRole(graphene.Mutation):
     class Arguments:
@@ -16,4 +17,4 @@ class IntroduceRole(graphene.Mutation):
         return IntroduceRole(mutation=mutation)
     
 class Mutation(graphene.ObjectType):
-    introduceRole = IntroduceRole.Field()
+    introduceRole = IntroduceRole.Field() """
