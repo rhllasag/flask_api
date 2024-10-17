@@ -1,4 +1,4 @@
-from models import Department, Employee, Role
+from schema import Department, Employee, Role
 
 def init_db():
     # Create the fixtures
