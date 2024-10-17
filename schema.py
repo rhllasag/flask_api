@@ -1,26 +1,50 @@
+import graphene
+from graphene.relay import Node
+from graphene_mongo import MongoengineConnectionField, MongoengineObjectType
+from models import Department as DepartmentModel
+from models import Employee as EmployeeModel
+from models import Role as RoleModel
 
-from datetime import datetime
-from mongoengine.fields import (
-    DateTimeField, ReferenceField, StringField,
-)
-from flask_mongoengine import MongoEngine
+class Department(MongoengineObjectType):
 
-db = MongoEngine()
-
-class Department(db.Document):
-    meta = {'collection': 'department'}
-    name = db.StringField()
-
-
-class Role(db.Document):
-    meta = {'collection': 'role'}
-    name = db.StringField()
+    class Meta:
+        model = DepartmentModel
+        interfaces = (Node,)
 
 
-class Employee(db.Document):
-    meta = {'collection': 'employee'}
-    name = db.StringField()
-    hired_on = db.DateTimeField(default=datetime.now)
-    department = db.ReferenceField(Department)
-    role = db.ReferenceField(Role)
+class Role(MongoengineObjectType):
+
+    class Meta:
+        model = RoleModel
+        interfaces = (Node,)
+
+
+class Employee(MongoengineObjectType):
+
+    class Meta:
+        model = EmployeeModel
+        interfaces = (Node,)
+        
+class IntroduceRole(graphene.Mutation):
+
+    class Arguments:
+        name = graphene.String(required=True)
+
+    mutation = graphene.Field(lambda: Role)
+
+    #@classmethod
+    def mutate(self, info, name):
+        mutation = RoleModel(name=name)
+        mutation.save()
+        return IntroduceRole(mutation=mutation)
     
+class Mutation(graphene.ObjectType):
+    introduceRole = IntroduceRole.Field()
+    
+class Query(graphene.ObjectType):
+    node = Node.Field()
+    all_employees = MongoengineConnectionField(Employee)
+    all_role = MongoengineConnectionField(Role)
+    role = graphene.Field(Role)
+    
+schema = graphene.Schema(query=Query, mutation=Mutation, types=[Department, Employee, Role])

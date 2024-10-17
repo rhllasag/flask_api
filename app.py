@@ -2,8 +2,8 @@
 from config import Config
 from flask import Flask
 from flask_graphql import GraphQLView
-from query import schema
-from schema import db
+from schema import schema
+from models import db
 from dataset import init_db
 
 app = Flask(__name__)
