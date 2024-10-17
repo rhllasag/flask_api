@@ -1,3 +1,2 @@
-import graphene
-from .query import Query
-#from .mutation import Mutation
+from .query import Query, Department, Role, Employee
+from .mutation import Mutation
