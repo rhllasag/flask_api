@@ -6,45 +6,23 @@ from models import Employee as EmployeeModel
 from models import Role as RoleModel
 
 class Department(MongoengineObjectType):
-
     class Meta:
         model = DepartmentModel
         interfaces = (Node,)
-
-
+        
 class Role(MongoengineObjectType):
-
     class Meta:
         model = RoleModel
         interfaces = (Node,)
 
-
 class Employee(MongoengineObjectType):
-
     class Meta:
         model = EmployeeModel
-        interfaces = (Node,)
-        
-class IntroduceRole(graphene.Mutation):
-
-    class Arguments:
-        name = graphene.String(required=True)
-
-    mutation = graphene.Field(lambda: Role)
-
-    #@classmethod
-    def mutate(self, info, name):
-        mutation = RoleModel(name=name)
-        mutation.save()
-        return IntroduceRole(mutation=mutation)
-    
-class Mutation(graphene.ObjectType):
-    introduceRole = IntroduceRole.Field()
+        interfaces = (Node,)    
+            
     
 class Query(graphene.ObjectType):
     node = Node.Field()
     all_employees = MongoengineConnectionField(Employee)
     all_role = MongoengineConnectionField(Role)
     role = graphene.Field(Role)
-    
-schema = graphene.Schema(query=Query, mutation=Mutation, types=[Department, Employee, Role])
