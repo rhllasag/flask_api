@@ -35,8 +35,8 @@ default_query = '''
 
 @app.route('/add_data')
 def add_user():
-    init_db()
-    return "User added successfully!"
+    #init_db()
+    return "User added successfully 3!"
   
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
 
