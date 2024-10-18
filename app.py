@@ -1,5 +1,6 @@
 
 from config import Config
+import os
 from flask import Flask
 from flask_graphql import GraphQLView
 from app_schema import schema
@@ -35,8 +36,10 @@ default_query = '''
 
 @app.route('/add_data')
 def add_user():
-    #init_db()
-    return "User added successfully 3!"
+    if os.getenv("ENV")=='dev':
+      init_db()
+      return "Data added successfully"
+    return "Data for production environment not required!"
   
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
 
